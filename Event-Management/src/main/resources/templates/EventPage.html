@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Management</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container { margin-top: 20px; }
+    </style>
+</head>
+<body>
+   <div class="container">
+        <h1 class="text-center">Event Management System</h1>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#venues">Venues</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#organizers">Organizers</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#events">Events</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!-- Venues Tab -->
+            <div id="venues" class="container tab-pane active"><br>
+                <h3>Venues</h3>
+                <button id="btnAddVenue" class="btn btn-primary" onclick="showVenueForm()">Add Venue</button>
+                <div id="venueForm" style="display:none;">
+                    <h4 id="venueFormTitle">Create Venue</h4>
+                    <form th:action="@{/venues}" method="post">
+                        <div class="form-group">
+                            <label for="venueName">Name:</label>
+                            <input type="text" class="form-control" id="venueName" name="name">
+                        </div>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </form>
+                </div>
+                <table class="table table-bordered" id="venuesTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="venue : ${venues}">
+                            <td th:text="${venue.id}">1</td>
+                            <td th:text="${venue.name}">Venue Name</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm" onclick="editVenue(/*[[${venue.id}]]*/)">Edit</button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteVenue(/*[[${venue.id}]]*/)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Organizers Tab -->
+            <div id="organizers" class="container tab-pane fade"><br>
+                <h3>Organizers</h3>
+                <button id="btnAddOrganizer" class="btn btn-primary" onclick="showOrganizerForm()">Add Organizer</button>
+                <div id="organizerForm" style="display:none;">
+                    <h4 id="organizerFormTitle">Create Organizer</h4>
+                    <form th:action="@{/organizers}" method="post">
+                        <div class="form-group">
+                            <label for="organizerName">Name:</label>
+                            <input type="text" class="form-control" id="organizerName" name="name">
+                        </div>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </form>
+                </div>
+                <table class="table table-bordered" id="organizersTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="organizer : ${organizers}">
+                            <td th:text="${organizer.id}">1</td>
+                            <td th:text="${organizer.name}">Organizer Name</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm" onclick="editOrganizer(/*[[${organizer.id}]]*/)">Edit</button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteOrganizer(/*[[${organizer.id}]]*/)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Events Tab -->
+            <div id="events" class="container tab-pane fade"><br>
+                <h3>Events</h3>
+                <button id="btnAddEvent" class="btn btn-primary" onclick="showEventForm()">Add Event</button>
+                <div id="eventForm" style="display:none;">
+                    <h4 id="eventFormTitle">Create Event</h4>
+                    <form th:action="@{/events}" method="post">
+                        <div class="form-group">
+                            <label for="eventName">Name:</label>
+                            <input type="text" class="form-control" id="eventName" name="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="eventVenue">Venue:</label>
+                            <input type="text" class="form-control" id="eventVenue" name="venue">
+                        </div>
+                        <div class="form-group">
+                            <label for="eventOrganizer">Organizer:</label>
+                            <input type="text" class="form-control" id="eventOrganizer" name="organizer">
+                        </div>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </form>
+                </div>
+                <table class="table table-bordered" id="eventsTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Venue</th>
+                            <th>Organizer</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="event : ${events}">
+                            <td th:text="${event.id}">1</td>
+                            <td th:text="${event.name}">Event Name</td>
+                            <td th:text="${event.venue}">Venue</td>
+                            <td th:text="${event.organizer}">Organizer</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm" onclick="editEvent(/*[[${event.id}]]*/)">Edit</button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteEvent(/*[[${event.id}]]*/)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function showVenueForm() {
+            $('#venueForm').toggle();
+            $('#venueFormTitle').text('Create Venue');
+        }
+
+        function showOrganizerForm() {
+            $('#organizerForm').toggle();
+            $('#organizerFormTitle').text('Create Organizer');
+        }
+
+        function showEventForm() {
+            $('#eventForm').toggle();
+            $('#eventFormTitle').text('Create Event');
+        }
+
+        function editVenue(id) {
+            // Make an AJAX GET request to retrieve venue data
+            $.get(`/venues/${id}`, function(data) {
+                $('#venueName').val(data.name);
+                $('#venueFormTitle').text('Update Venue');
+                $('#venueForm').show();
+            });
+        }
+
+        function deleteVenue(id) {
+            // Make an AJAX DELETE request to delete the venue
+            $.ajax({
+                url: `/venues/${id}`,
+                type: 'DELETE',
+                success: function() {
+                    location.reload();
+                }
+            });
+        }
+
+        function editOrganizer(id) {
+            // Make an AJAX GET request to retrieve organizer data
+            $.get(`/organizers/${id}`, function(data) {
+                $('#organizerName').val(data.name);
+                $('#organizerFormTitle').text('Update Organizer');
+                $('#organizerForm').show();
+            });
+        }
+
+        function deleteOrganizer(id) {
+            // Make an AJAX DELETE request to delete the organizer
+            $.ajax({
+                url: `/organizers/${id}`,
+                type: 'DELETE',
+                success: function() {
+                    location.reload();
+                }
+            });
+        }
+
+        function editEvent(id) {
+            // Make an AJAX GET request to retrieve event data
+            $.get(`/events/${id}`, function(data) {
+                $('#eventName').val(data.name);
+                $('#eventVenue').val(data.venue);
+                $('#eventOrganizer').val(data.organizer);
+                $('#eventFormTitle').text('Update Event');
+                $('#eventForm').show();
+            });
+        }
+
+        function deleteEvent(id) {
+            // Make an AJAX DELETE request to delete the event
+            $.ajax({
+                url: `/events/${id}`,
+                type: 'DELETE',
+                success: function() {
+                    location.reload();
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            // Load data when the document is ready
+        });
+    </script>
+</body>
+</html>
